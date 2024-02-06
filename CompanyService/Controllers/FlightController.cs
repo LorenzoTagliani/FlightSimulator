@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using CompanyService;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AirRouteAdministrator.API;
@@ -15,11 +16,23 @@ public class FlightController : ControllerBase
     [HttpGet()]
     [ProducesResponseType(typeof(long), (int)HttpStatusCode.NotFound)]
     [ProducesResponseType(typeof(List<long>), (int)HttpStatusCode.OK)]
-    public async Task<IActionResult> GetListOfDigits()
+    public async Task<IActionResult> GetVoli()
     {
-       var result = new List<long> {1,2,3,4,5};
+        AereoAPI aereo1 = new AereoAPI(123, "ABC");
+        AereoAPI aereo2 = new AereoAPI(456, "DEF");
+        var result = new List<AereoAPI> {aereo1, aereo2};
 
         return Ok(result);         
         // return NotFound(flightId);       
     }   
+
+    [HttpPost()]
+    [ProducesResponseType(typeof(long), (int)HttpStatusCode.NotFound)]
+    [ProducesResponseType(typeof(AereoAPI), (int)HttpStatusCode.OK)]
+    public async Task<IActionResult> CreaVolo(int idAereo, string codiceAereo)
+    {
+        AereoAPI aereo = new AereoAPI(idAereo, codiceAereo);
+
+        return Ok(aereo);
+    }
 }
